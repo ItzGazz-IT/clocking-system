@@ -3,7 +3,9 @@
 declare(strict_types=1);
 
 $localPath = __DIR__ . '/database.local.json';
-$local = is_file($localPath) ? json_decode((string) file_get_contents($localPath), true, 512, JSON_THROW_ON_ERROR) : [], $local);
+$local = is_file($localPath)
+    ? json_decode((string) file_get_contents($localPath), true, 512, JSON_THROW_ON_ERROR)
+    : [];
 
 return array_replace([
     'driver' => 'mysql',
