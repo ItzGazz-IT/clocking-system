@@ -146,9 +146,21 @@ final class DatabaseSetup
     private static function executeSql(PDO $pdo, string $sql): void
     {
         foreach (preg_split('/;\h*(?:\R|$)/', $sql) ?: [] as $statement) {
-            if (trim($statement) !== '') {
-                $pdo->exec($statement);
+            $statement = trim($statement);
+            if ($statement === '') {
+                continue;
             }
+            // MySQL commits DDL separately. The department manager column and
+            // its foreign key are added together after both tables exist.
+            if (str_starts_with($statement, 'ALTER TABLE departments')
+                && (int) $pdo->query(
+                    "SELECT COUNT(*) FROM information_schema.columns
+                     WHERE table_schema = DATABASE() AND table_name = 'departments'
+                         AND column_name = 'manager_employee_id'"
+                )->fetchColumn() > 0) {
+                continue;
+            }
+            $pdo->exec($statement);
         }
     }
 }
