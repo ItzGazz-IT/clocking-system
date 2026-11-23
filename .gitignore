@@ -1,0 +1,13 @@
+.env
+/config/database.local.json
+/config/.database-*
+/config/database-setup.lock
+/logs/*
+/uploads/*
+/public/downloads/*
+/vendor/
+/ClockingAgent/bin/
+/ClockingAgent/obj/
+/dist/
+*.exe
+*.log

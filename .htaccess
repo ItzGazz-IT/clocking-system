@@ -1,0 +1,19 @@
+Options -Indexes
+SetEnvIf Authorization "(.+)" HTTP_AUTHORIZATION=$1
+
+<FilesMatch "^(\.env|composer\.(json|lock)|composer\.phar|.*\.sql|.*\.md)$">
+    Require all denied
+</FilesMatch>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+    RewriteRule ^(app|bootstrap|config|database|docs|downloads|logs|routes|tests|uploads|vendor)(/|$) - [F,L]
+    RewriteRule ^(ClockingAgent|dist|bin)(/|$) - [F,L]
+    RewriteRule ^$ public/index.php [L]
+    RewriteRule ^assets/(.*)$ public/assets/$1 [L]
+    RewriteRule ^download/(Time-Attendance-Agent-Setup(?:-[0-9A-Za-z._-]+)?\.exe)$ public/downloads/$1 [L]
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^ public/index.php [QSA,L]
+</IfModule>

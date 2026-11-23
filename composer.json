@@ -1,0 +1,28 @@
+{
+    "name": "clocking-system/time-attendance",
+    "description": "Time & Attendance application",
+    "type": "project",
+    "require": {
+        "php": "^8.3",
+        "ext-pdo": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        },
+        "files": [
+            "app/helpers/functions.php"
+        ]
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },
+    "scripts": {
+        "test": "php tests/run.php",
+        "migrate": "php bin/migrate.php",
+        "maintenance": "php bin/maintenance.php"
+    }
+}
